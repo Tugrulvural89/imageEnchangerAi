@@ -1,0 +1,244 @@
+{% load django_bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block title %}  <title>Enhance and Resize Images with AI | imageupgradeai.com</title>  {% endblock title %}
+ {% block meta_title %}  <meta name="title" content="AI-Powered Image Enhancement | imageupgradeai.com"> {% endblock meta_title %}
+    {% block meta_description %}  <meta name="description" content="Discover imageupgradeai.com,
+    an advanced tool for enhancing and resizing images using artificial intelligence.
+     Quickly scale, beautify, and save images in popular formats effortlessly."> {% endblock meta_description %}
+
+    <meta name="author" content="Vural">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <meta property="og:title" content="Enhance and Resize Images with AI " />
+    <meta property="og:description" content="Discover imageupgradeai.com,
+    an advanced tool for enhancing and resizing images using artificial intelligence.
+     Quickly scale, beautify, and save images in popular formats effortlessly." />
+    <meta property="og:image" content="{% static 'logomainreduce.png' %}" />
+    <meta property="og:image:width" content="200" />
+    <meta property="og:image:height" content="200" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+     <style>
+
+        .drop-area {
+            border: 2px dashed #214391;
+            border-radius: 20px;
+            width: auto;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
+        .drop-area.hover {
+            background-color: #f8f9fa;
+        }
+        .file-input {
+            opacity: 0;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+
+        #image-preview {
+            max-height: 200px;
+            margin-top: 10px;
+        }
+        .image-info {
+            padding-top: 10px;
+        }
+
+
+    /* Görüntü yüklendiğinde kapatma butonunu göster */
+    .has-image .close-btn {
+        display: block;
+    }
+
+    #image-preview-container {
+  display: none; /* Hidden until an image is dropped or selected */
+  border: 1px solid #ddd;
+  margin-top: 20px;
+  padding: 10px;
+  position: relative; /* Bu önemli, close-btn'u konumlandırmak için */
+}
+
+.close-btn {
+  display: block; /* İlk başta gizli olmamalı */
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 30px;
+  padding: 0 12px;
+  font-weight: bold;
+}
+
+    .btn-primary {
+        background-color: #214391;
+        color: #ffffff;
+    }
+    .manual-resize-toggle {
+    display: none; /* Checkbox'ı gizle */
+}
+
+.manual-resize-label {
+    cursor: pointer;
+    color: #000; /* İkon rengi */
+    font-size: 24px; /* İkon boyutu */
+}
+
+.manual-resize-label .fa-lock {
+    display: none; /* Başlangıçta kapalı kilit ikonunu gizle */
+}
+
+.manual-resize-label.unlocked .fa-lock-open {
+    display: inline; /* Eğer toggle aktifse açık kilit ikonunu göster */
+}
+
+.manual-resize-label.unlocked .fa-lock {
+    display: none; /* Eğer toggle aktifse kapalı kilit ikonunu gizle */
+}
+
+.manual-resize-label.locked .fa-lock-open {
+    display: none; /* Eğer toggle pasifse açık kilit ikonunu gizle */
+}
+
+.manual-resize-label.locked .fa-lock {
+    display: inline; /* Eğer toggle pasifse kapalı kilit ikonunu göster */
+}
+.resize-options {
+  display: flex;
+  justify-content: space-around;
+}
+
+.resize-option label {
+  cursor: pointer;
+  text-align: center;
+}
+
+.resize-option label img {
+  width: 200px; /* Adjust as needed */
+  height: auto;
+  border: 2px solid transparent; /* For highlighting selected option */
+}
+
+.resize-option input[type="radio"]:checked + label img {
+  border-color: #214391; /* Highlight color for selected option */
+}
+    </style>
+    <!-- Öncelikle kilit ikonlarınızı yükleyin -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C48T3M7T50"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-C48T3M7T50');
+</script>
+
+{% block header_js %}
+
+{% endblock header_js %}
+
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+  <div class="container">
+      <a class="navbar-brand" href="/">
+      <img src="{% static 'logomainreduce.png' %}" alt="Beautify Images" width="50" height="50">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'index' %}">Beautify Images</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blog' %}">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% block content %}
+{% endblock content %}
+<footer class="pt-4 my-md-5 pt-md-5 border-top bg-light">
+    <div class="container">
+        <div class="row">
+          <div class="col-12 col-md">
+            <img class="mb-2" src="{% static 'logomainreduce.png' %}" alt="Scale and beautify Images" width="50" height="50">
+            <p>
+           Welcome to imageupgradeai.com, your AI-powered solution for enhancing and resizing images effortlessly.
+                Our platform allows you to adjust image scales and improve quality, saving your results in JPG,
+                PNG, or GIF formats.
+            </p>
+              <p>Email : tvural@lookupprice.com</p>
+              <small class="d-block mb-3 text-muted">imageupgradeai.com © 2024</small>
+
+          </div>
+          <div class="col-6 col-md text-center">
+            <h5>Privacy</h5>
+            <ul class="list-unstyled text-small">
+                {% for post in privacy_pages %}
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="{% url 'custom_page' slug=post.slug %}">{{ post.title }}</a></li>
+                {% endfor %}
+            </ul>
+          </div>
+          <div class="col-6 col-md text-center">
+            <h5>Our Products</h5>
+            <ul class="list-unstyled text-small">
+                {% for post in products_pages %}
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="{% url 'custom_page' slug=post.slug %}">{{ post.title }}</a></li>
+                {% endfor %}
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="/blog">Blog</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://www.lookupprice.com/" target="_blank">Lookupprice.com</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://www.reduceimagesizer.com" target="_blank">Reduce Image Sizer</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://apps.apple.com/tr/app/nourish-cuisine/id6450790012" target="_blank">Nourish IOS App</a></li>
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://play.google.com/store/apps/details?id=com.kasimtugrulvural.yemek&hl=en&gl=US" target="_blank">Nourish Android App</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md text-center">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+                {% for post in about_pages %}
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="{% url 'custom_page' slug=post.slug %}">{{ post.title }}</a></li>
+                {% endfor %}
+              <li class="mb-1"><a class="link-secondary text-decoration-none" href="/contact">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+</footer>
+{% block javascript %}
+{% endblock javascript %}
+</body>
+</html>

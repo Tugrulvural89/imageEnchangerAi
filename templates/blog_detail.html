@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+
+{% block title %} <title>{{ post.title }} | imageupgradeai.com</title> {% endblock title %}
+   {% block meta_description %}  <meta name="description" content="{{ post.text|truncatechars_html:400 }}"> {% endblock meta_description %}
+
+ {% block meta_title %}  <meta name="title" content="{{ post.title }}"> {% endblock meta_title %}
+
+
+
+{% block content %}
+<div class="container mt-5">
+    <div class="blog-post">
+        <h1 class="h1 text-align-center text-center item-center my-5">{{ post.title }}</h1>
+        {% if post.image %}
+            <img src="{{ post.image.url }}" class="img-fluid mb-3" alt="{{ post.title }}">
+        {% endif %}
+        <p class="text-muted">
+            Published on {{ post.publish|date:"M d, Y" }} | Status: {{ post.get_status_display }}
+        </p>
+        <div class="blog-content">
+            {{ post.text|linebreaks }}
+        </div>
+    </div>
+</div>
+{% endblock %}

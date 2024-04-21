@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}<title>{{ content.title }} | imageupgradeai.com</title> {% endblock title %}
+   {% block meta_description %}  <meta name="description" content="{{ content.text|truncatechars_html:350 }}"> {% endblock meta_description %}
+ {% block meta_title %}  <meta name="title" content="{{ content.title }}"> {% endblock meta_title %}
+
+
+{% block content %}
+
+
+<div class="container">
+<h2 class="h2 items-center text-center justify-content-center m-5">{{ content.title }}</h2>
+<p class="fs-5 m-5">
+    {{ content.text|safe|linebreaksbr }}
+</p>
+</div>
+
+
+{% endblock content %}

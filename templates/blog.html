@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+
+{% block title %} <title>Explore Our Blog | imageupgradeai.com</title> {% endblock title %}
+   {% block meta_description %}  <meta name="description" content="Stay updated with the
+   latest trends and tips in image enhancement and resizing technology. Read our blog at
+    imageupgradeai.com for expert advice and innovative solutions."> {% endblock meta_description %}
+ {% block meta_title %}  <meta name="title" content="Latest Insights on Image Enhancement | imageupgradeai.com"> {% endblock meta_title %}
+
+
+
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="h1 m-5">Latest Insights on Image Enhancement</h1>
+    <div class="list-group">
+        {% for post in page_obj %}
+            <a href="{% url 'blog_detail' post.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-3 mt-3">{{ post.title }}</h5>
+                    <small>{{ post.publish|date:"N d, Y" }}</small>
+                </div>
+                <img src="{{ post.image.url }}" class="img-fluid" alt="{{ post.title }}" style="max-height: 300px; width: auto;">
+                <p class="mb-1 mt-5">{{ post.text|safe|linebreaksbr|truncatewords:300 }}</p>
+            <button class="btn btn-sm btn-primary mt-2 mb-2 py-2">Read more</button>
+            </a>
+
+        {% endfor %}
+    </div>
+    <nav aria-label="Page navigation example" class="mt-4">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo;</span>
+                </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link" style="background-color: #214391;">{{ num }}</span></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&raquo;</span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+
+ {% block title %}<title>Contact Us | imageupgradeai.com</title> {% endblock title %}
+   {% block meta_description %}  <meta name="description" content="Have questions or need support?
+   Contact the imageupgradeai.com team today. We're here to help you with your image enhancement
+    needs and provide personalized assistance."> {% endblock meta_description %}
+
+ {% block meta_title %}  <meta name="title" content="Get in Touch | imageupgradeai.com"> {% endblock meta_title %}
+
+
+
+{% block content %}
+
+    <div class="contact-header p-5 text-center items-center mb-5" style="background-image: url('{% static "contactbg.png" %}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+<div class="container">
+
+           <div style="height: 100px;"></div>
+
+
+
+
+            <!-- templates/contact.html -->
+        <p class="col col-12 col-md-6 fs-4 text-capitalize text-muted text-start">
+        We are here to help!
+
+        </p>
+    <p class="col col-12 col-md-6 fs-4 text-capitalize text-muted text-start">
+        Please let us know if you have any questions or suggestions and we will get back to you.
+
+        </p>
+
+
+    </div>
+</div>
+<div class="container">
+<form method="post" action="">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type='submit' content='Send' size='lg' %}
+</form>
+
+</div>
+
+<div class="container">
+    <div class="row mb-4 mt-4">
+        <div class="col text-center">
+            <h1 class="h2">Transform Your Photos: How AI Can Turn Blurry Images into Stunning Visuals</h1>
+        </div>
+    </div>
+    <!-- Metin ve Görsel İçeren Flex Container -->
+    <div class="row mb-4 mt-4">
+    <div class="col-md-6 align-items-center">
+        <p>
+            Welcome to the future of image enhancement! At <strong>imageupgradeai.com</strong>, we understand that not every photo comes out perfect. Sometimes, important details are lost in a blur, whether due to quick movements, poor lighting, or other factors. But what if you could turn those blurry images into stunning visuals? Thanks to the power of <strong>artificial intelligence</strong>, now you can!
+        </p>
+
+        <p>
+            Our advanced AI-driven platform uses cutting-edge technology to analyze and beautify your photos. With just a few clicks, you can upload your blurry pictures and watch as our AI works its magic, refining and enhancing each pixel. The result? Crisp, clear images that look like they were taken by a professional.
+        </p>
+
+        <p>
+            Whether you're a photographer looking to polish your portfolio or just someone who wants to salvage memories from less-than-perfect snaps, our tool is designed for everyone. Not only does it enhance clarity, but it also improves colors, adjusts lighting, and adds that much-needed sparkle to your images.
+        </p>
+
+        <p>
+            Visit us today and breathe new life into your photos with our <strong>AI image beautification tool</strong>. Let’s transform your blurry images into breathtaking visuals together!
+        </p>
+    </div>
+    <div class="col-md-6 d-flex justify-content-center">
+        <img src="{% static '1.png' %}" alt="Transformed Image" class="img-fluid">
+    </div>
+</div>
+
+   <div class="row mb-4">
+    <div class="col text-center">
+        <h1 class="h2">How can I beautify old images?</h1>
+    </div>
+</div>
+<!-- Text and Image Flex Container -->
+<div class="row">
+    <div class="col-md-6 d-flex justify-content-center">
+        <img src="{% static '2.png' %}" alt="Resim" class="img-fluid" style="max-width: 50%">
+    </div>
+    <div class="col-md-6 align-items-center">
+        <p class="mb-2">Breathing new life into old photos is a magical process enabled by advanced AI technology. With <strong>AI-powered restoration</strong>, you can not only repair the physical wear and tear but also enhance the overall aesthetics of vintage images.</p>
+
+        <p class="mb-2">Our tools delve deep into the structure of an image, meticulously enhancing faded colors and bringing clarity to obscured details. Whether it’s sharpening blurred edges or correcting color fading, the AI adapts to the unique challenges posed by each photograph.</p>
+
+        <p class="mb-2">For images that have suffered from overexposure to light or have turned yellowish over time, AI techniques can effectively neutralize these effects, restoring the original hues and vibrancy. Integrating both <strong>color correction</strong> and <strong>detail enhancement</strong>, the AI ensures that each photo not only looks more attractive but also retains its historical authenticity.</p>
+    </div>
+</div>
+
+</div>
+{% endblock content %}
