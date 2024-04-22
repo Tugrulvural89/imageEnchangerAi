@@ -39,6 +39,8 @@ urlpatterns = [
     path('blog/<slug:slug>/', views.blog_detail, name='blog_detail'),
     path('robots.txt', views.robots_txt),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-
+]
+# Serving static files and media files in development
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
