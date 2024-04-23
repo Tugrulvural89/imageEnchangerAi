@@ -35,13 +35,13 @@ ALLOWED_HOSTS = ['www.imageupgradeai.com']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.sitemaps',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'replicateimage.apps.ReplicateimageConfig',
     'django_bootstrap5',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [
