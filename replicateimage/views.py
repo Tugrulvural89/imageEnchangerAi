@@ -3,6 +3,8 @@ import os
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from replicate.exceptions import ReplicateError
+
 from .forms import ImageUploadForm
 from django.http import FileResponse, HttpResponse
 from PIL import Image
@@ -18,7 +20,7 @@ import replicate
 def index(request):
     REPLICATE_API_TOKEN = config('REPLICATE_API_TOKEN')
     # Set the REPLICATE_API_TOKEN environment variable
-    os.environ["REPLICATE_API_TOKEN"] = config('REPLICATE_API_TOKEN')
+    os.environ["REPLICATE_API_TOKEN"] = REPLICATE_API_TOKEN
     seed = config('SEED', default=1337, cast=int)
     prompt = config('PROMPT')
     dynamic = config('DYNAMIC', cast=int)
@@ -68,8 +70,9 @@ def index(request):
                     }
                 )
                 output_url = output[0]
-            except Exception as e:
-                output_url = f'e {e}'
+            except ReplicateError as e:
+                print(f"An error occurred: {e.status} - {e.detail}")
+                output_url = f"An error occurred: {e.status} - {e.detail}"
             return render(request, 'index.html', {'output_url': output_url, 'full_url': full_url})
     else:
         form = ImageUploadForm()
